@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gradient Generator</title>
+<link rel="stylesheet" href="spectrum.css" />
+<style>
+#output div{
+	padding: 4px;
+}
+.sp-dragger, .sp-slider{
+	background:none;
+	border:1px solid #000000;
+	box-shadow: 0 0 0 1px #FFFFFF;
+}
+</style>
+</head>
+
+<body>
+起始颜色：<input type="text" id="color1" /><br><br>
+结束颜色：<input type="text" id="color2" /><br><br>
+中间颜色数：<input type="number" id="steps" max="254" min="0" value="4" onChange="updateColors();" /><br><br>
+<div id="output"></div>
+
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="spectrum.js" language="javascript"></script>
+<script language="javascript">
+var c1 = { _r: 255, _g: 127, _b: 0 }, c2 = { _r: 0, _g: 127, _b: 255 };
+$("#color1").spectrum({
+	preferredFormat: "hex",
+	color: "#FF7F00",
+	showInput: true,
+	move: function(c){ c1 = c, updateColors(); },
+	hide: function(c){ c1 = c, updateColors(); }
+});
+$("#color2").spectrum({
+	preferredFormat: "hex",
+	color: "#007FFF",
+	showInput: true,
+	move: function(c){ c2 = c, updateColors(); },
+	hide: function(c){ c2 = c, updateColors(); }
+});
+function toHex(r, g, b){
+	r = Math.round(r), g = Math.round(g), b = Math.round(b);
+	var s = "#";
+	s += (r < 16 ? "0" : "") + r.toString(16);
+	s += (g < 16 ? "0" : "") + g.toString(16);
+	s += (b < 16 ? "0" : "") + b.toString(16);
+	return s.toUpperCase();
+}
+function updateColors(){
+	var html = "", step = Number($("#steps")[0].value) + 1;
+	var cr = c1._r, cg = c1._g, cb = c1._b;
+	var rs = (c2._r - c1._r) / step, gs = (c2._g - c1._g) / step, bs = (c2._b - c1._b) / step;
+	html += '<div style="background:rgb(' + Math.round(cr) + ',' + Math.round(cg) + ',' + Math.round(cb) + ');color:' + ((cr + cg + cb) / 3 > 128 ? "#000" : "#FFF") + ';">' + toHex(cr, cg, cb) + '</div>';
+	for(var i = 0; i < step; i++){
+		cr += rs, cg += gs, cb += bs;
+		html += '<div style="background:rgb(' + Math.round(cr) + ',' + Math.round(cg) + ',' + Math.round(cb) + ');color:' + ((cr + cg + cb) / 3 > 128 ? "#000" : "#FFF") + ';">' + toHex(cr, cg, cb) + '</div>';
+	}
+	$("#output").html(html);
+}
+updateColors();
+
+</script>
+</body>
+</html>

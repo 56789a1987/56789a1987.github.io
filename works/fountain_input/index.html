@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fountain Input Demo</title>
+<style>
+html, body {
+	margin: 0;
+	padding: 0;
+}
+* {
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
+}
+
+body {
+	background: #000;
+}
+#hint {
+	position: absolute;
+	color: #fff;
+	font-size: 36px;
+	width: 100%;
+	text-align: center;
+	top: 50%;
+	transform: translate(0,-50%);
+	transition: all .5s;
+}
+#renderer {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+#input {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	opacity: 0;
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+<canvas id="renderer"></canvas>
+<div id="hint">输入一些文字…<br />Type something...</div>
+<input id="input" />
+
+<script src="dat.gui.min.js" language="javascript"></script>
+<script language="javascript">
+class char_fountain {
+	constructor(canvas, input) {
+		const ctx = canvas.getContext("2d");
+		this.canvas = canvas;
+		this.char = new Array();
+		this.start = 0;
+		this.repeat = 1;
+		this.maxLength = 3000;
+		this.fontSize = 36;
+		this.tailFadeRate = .25;
+		this.gravity = .1;
+		this.maxHeight = 1.6;
+		this.minHeightPercentage = .4;
+		this.hueRange = [0, 360];
+		this.rotateText = false;
+		this.onActivate = () => false;
+		const render = () => {
+			if(typeof this.hueRange === "string") this.hueRange = this.hueRange.split(",");
+			let iv = input.value || "";
+			if(iv != "" && input.value) for(let i = 0; i < iv.length; i ++) this.addChar(iv.charAt(i)), input.value = "";
+			if(this.start === 0 && this.char.length > 0) this.onActivate(), this.start = 1;
+			if(this.start === 1) {
+				this.char.length > this.maxLength && this.char.splice(0, this.char.length - this.maxLength);
+				ctx.fillStyle = `rgba(0,0,0,${this.tailFadeRate})`;
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.font = `${this.fontSize}px "Helvetica Neue", Helvetica, sans-serif`;
+				this.char.forEach((o, i) => {
+					ctx.save();
+					ctx.fillStyle = `hsl(${o.h},100%,50%)`;
+					ctx.translate(o.x, o.y);
+					if(this.rotateText) ctx.rotate(Math.atan2(o.vx, -o.vy));
+					ctx.fillText(o.c, 0, 0);
+					ctx.restore();
+					o.x += o.vx, o.y += o.vy, o.vy += this.gravity;
+					if(o.y > canvas.height + this.fontSize + 10) this.char.splice(i, 1);
+				});
+			}
+			if(this.start >= 0) requestAnimationFrame(render);
+		}
+		render();
+	}
+	addChar(char) {
+		for(var i = 0; i < this.repeat; i ++) this.char.push({
+			x: this.canvas.width / 2,
+			y: this.canvas.height + this.fontSize + 10,
+			vx: (Math.random() - .5) * this.canvas.width * Math.sqrt(this.gravity) / 30,
+			vy: -(Math.random() * (1 - this.minHeightPercentage) + this.minHeightPercentage) * Math.sqrt(this.canvas.height) * Math.sqrt(this.gravity) * this.maxHeight,
+			c: char,
+			h: (Number(this.hueRange[0]) + Math.random() * (this.hueRange[1] - this.hueRange[0]))
+		});
+	}
+	destroy() {
+		this.start = -1;
+	}
+}
+
+const renderer = document.getElementById("renderer"), input = document.getElementById("input"),
+resize = () => {
+	renderer.width = window.innerWidth;
+	renderer.height = window.innerHeight;
+},
+f = new char_fountain(renderer, input);
+var gui = new dat.GUI();
+let guilist = [
+	gui.add(f, "maxLength", 10, 5000),
+	gui.add(f, "fontSize", 12, 72).step(1),
+	gui.add(f, "repeat", 1, 10).step(1),
+	gui.add(f, "tailFadeRate", 0, 1),
+	gui.add(f, "gravity", .02, 2),
+	gui.add(f, "maxHeight", 1, 2),
+	gui.add(f, "minHeightPercentage", 0, 1),
+	gui.add(f, "rotateText"),
+	gui.add(f, "hueRange", ["0,360", "180,270", "0,60"])
+];
+guilist.forEach((e) => e.onFinishChange(() => input.focus()));
+resize();
+window.addEventListener("resize", resize);
+window.onload = () => input.focus();
+f.onActivate = () => document.getElementById("hint").style.opacity = 0;
+</script>
+</body>
+</html>

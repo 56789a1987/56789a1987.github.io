@@ -1,0 +1,45 @@
+.cm-s-night .cm-keyword { color: #39c; }
+.cm-s-night .cm-atom { color: #36c; font-weight: bold; }
+.cm-s-night .cm-number { color: #c63; }
+.cm-s-night .cm-def ,
+.cm-s-night .cm-variable ,
+.cm-s-night .cm-variable-2 ,
+.cm-s-night .cm-variable-3, .cm-s-night .cm-type { color: #999; }
+.cm-s-night .cm-property { color: #999; }
+.cm-s-night .cm-operator { color: #93c; }
+.cm-s-night .cm-comment { color: #555; }
+.cm-s-night .cm-string ,
+.cm-s-night .cm-string-2 { color: #393; }
+
+.cm-s-night .CodeMirror-matchingbracket { background: rgba(255, 255, 255, 0.20); color: #0cf !important; }
+.cm-s-night .CodeMirror-nonmatchingbracket { color: #f90 !important; }
+
+.cm-s-night div.CodeMirror-selected ,
+.cm-s-night.CodeMirror-focused div.CodeMirror-selected { background: rgba(99,213,255,0.20); }
+.cm-s-night .CodeMirror-line::selection, .cm-s-night .CodeMirror-line > span::selection, .cm-s-night .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
+.cm-s-night .CodeMirror-line::-moz-selection, .cm-s-night .CodeMirror-line > span::-moz-selection, .cm-s-night .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
+
+.cm-s-night.CodeMirror {
+  color: #999;
+  background-color: #333;
+  font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+  font-size: 10pt;
+}
+
+.cm-s-night .CodeMirror-gutters {
+  background: #444;
+  border-right: none;
+  box-shadow: 0 0 2px #0f0;
+}
+
+.cm-s-night .CodeMirror-linenumber {
+  color: #ccc;
+  padding: 0 5px;
+}
+
+.cm-s-night .CodeMirror-cursor { border-left: 2px solid #0f0; }
+
+.cm-s-night .CodeMirror-activeline-background ,
+.cm-s-night .CodeMirror-activeline-gutter {
+  background: rgba(255, 255, 255, 0.05);
+}

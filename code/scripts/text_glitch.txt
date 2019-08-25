@@ -1,0 +1,29 @@
+if(document.getElementById("my_css") == null){
+	document.body.innerHTML += ""
+	+ '<style id="my_css">'
+	+ '	@keyframes mymove'
+	+ '	{'
+	+ '		0% { text-shadow: 0 0 0 rgba(0,255,255,.75), 0 0 0 rgba(255,0,0,.75); }'
+	+ '		15% { text-shadow: 2px 2px 0 rgba(0,255,255,.75), -2px -2px 0 rgba(255,0,0,.75); }'
+	+ '		30% { text-shadow: 0 0 0 rgba(0,255,255,.75), 0 0 0 rgba(255,0,0,.75); }'
+	+ '		45% { text-shadow: 2px 2px 0 rgba(0,255,255,.75), -2px -2px 0 rgba(255,0,0,.75); }'
+	+ '		60% { text-shadow: 0 0 0 rgba(0,255,255,.75), 0 0 0 rgba(255,0,0,.75); }'
+	+ '		100% { text-shadow: 0 0 0 rgba(0,255,255,.75), 0 0 0 rgba(255,0,0,.75); }'
+	+ '	}'
+	+ '</style>';
+	document.body.style.animation = "mymove .5s linear 0s infinite";
+	var rh = function(){ return a = Math.floor(Math.random() * 255), (a < 16 ? "0": "") + a.toString(16); },
+	rc = function(){ return "#" + rh() + rh() + rh(); },
+	str = "\u2581\u2582\u2583\u2584\u2585\u2586\u2587\u2588";
+	setInterval(function(){
+		var fx_e = document.querySelectorAll("#output");
+		if(fx_e.length > 0) fx_e.forEach(function(e){
+			var str_o = "";
+			for(var i = 0; i < 100; i ++) str_o += str.charAt(Math.floor(Math.random() * str.length));
+			e.innerHTML = str_o;
+		});
+		document.body.querySelectorAll("*").forEach(function(e){ e.style.color = rc(); });
+	}, 50);
+}
+
+// Try to copy this script and run it on other websites~

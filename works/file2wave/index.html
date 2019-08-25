@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="index.css">
+<title>Wave Generator</title>
+</head>
+
+<body>
+
+<div class="📖">
+	<div class="🐴">数据来源</div>
+	<div class="🐎">
+		<input name="tab" type="radio" id="tab2" checked="checked">
+		<label for="tab2"><div class="═ ═t">生成方法 1 - Bytebeat</div></label>
+		<div class="📑">
+			<div class="═">使用数学公式生成波形数据 (自变量 - t)</div>
+			<div class="═">预置<select id="📍">
+				<option value="">&nbsp;</option>
+				<optgroup label="8 kHz" id="🎶8"></optgroup>
+				<optgroup label="11 kHz" id="🎶11"></optgroup>
+				<optgroup label="22 kHz" id="🎶22"></optgroup>
+				<optgroup label="32 kHz" id="🎶32"></optgroup>
+				<optgroup label="44 kHz" id="🎶44"></optgroup>
+			</select></div>
+			<div class="═">
+			采样率(Hz)<input type="number" pattern="[0-9]*" id="🔢2_0" min="1000" step="100" value="8000">&nbsp;&nbsp;|
+			长度(秒)<input type="number" pattern="[0-9]*" id="🔢2_1" min="1" step="1" value="30">&nbsp;&nbsp;|
+			音质<input type="number" pattern="[0-9]*" id="🔢2_2" min="1" step="1" value="6">
+			</div>
+			<div class="═"><textarea id="📝">t*(42&t>>10)</textarea>
+			<div id="🛑" style="display: none;"></div></div>
+			<div class="═"><label id="🧮">编译</label></div>
+		</div>
+	</div>
+	<div class="🐎">
+		<hr>
+		<input name="tab" id="tab1" type="radio">
+		<label for="tab1"><div class="═ ═t">生成方法 2 - 文件转换</div></label>
+		<div class="📑">
+			<div class="═">上传任意文件，补充 Wave 文件头，令文件数据作为原生波形数据读取</div>
+			<div class="═">绝大多数文件可能会是噪音，但你所听到的绝对是文件原编码~</div>
+			<div class="═">码率(Hz)<input type="number" id="🔢" min="1000" step="100" value="48000"></div>
+			<div class="═"><label for="📂">上传文件</label></div>
+			<input type="file" id="📂">
+		</div>
+	</div>
+</div>
+
+<div class="📖 📗">
+	<div class="🐴">生成结果</div>
+	<div class="🐎">
+		<div class="═ ═p"><label><input type="checkbox" id="▶" checked="checked">自动播放</label></div>
+		<div class="═"><audio id="🎼" controls="controls" ></audio></div>
+		<div class="═"><a id="💾">下载音频</a></div>
+	</div>
+</div>
+
+<div style="height: 20px;"></div>
+
+<script src="data2wave.js" language="javascript"></script>
+<script src="bytebeat_examples.js" language="javascript"></script>
+<script language="javascript">
+var read = new FileReader();
+read.onload = function(){
+	var src = data2wave(Number(document.getElementById("🔢").value) || 48000, this.result);
+	document.getElementById("🎼").src = src;
+	window.scrollTo(0, document.documentElement.clientHeight);
+	if(document.getElementById("▶").checked) document.getElementById("🎼").play();
+	document.getElementById("💾").href = src;
+	document.getElementById("💾").download = new Date().getTime() + ".wav";
+}
+document.getElementById("📂").onchange = function(){
+	read.readAsBinaryString(this.files[0]);
+	this.value = "";
+}
+document.getElementById("📝").onfocus = function(){
+	document.getElementById("🛑").style.display = "none";
+}
+document.getElementById("🧮").onclick = function(){
+	var f = document.getElementById("📝").value,
+		r = Number(document.getElementById("🔢2_0").value) || 8000,
+		d = Number(document.getElementById("🔢2_1").value) || 30,
+		q = Number(document.getElementById("🔢2_2").value) || 6,
+		data = new Array();
+	for(let i = 0; i < r * d; i++){
+		try{
+			let t = i;
+			let p = eval(f);
+			for(let c = 0; c < q; c++) data.push(p);
+		}
+		catch(e){
+			document.getElementById("🛑").innerHTML = e.toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/\n/g,"<br>");
+			document.getElementById("🛑").style.display = "block";
+			return false;
+		}
+	}
+	var src = data2wave(r * q, data);
+	document.getElementById("🎼").src = src;
+	window.scrollTo(document.querySelector(".📗").offsetLeft, document.querySelector(".📗").offsetTop);
+	if(document.getElementById("▶").checked) document.getElementById("🎼").play();
+	document.getElementById("💾").href = src;
+	document.getElementById("💾").download = new Date().getTime() + ".wav";
+}
+document.getElementById("📝").onchange = document.getElementById("🔢2_0").onchange = document.getElementById("🔢2_2").onchange = function(){
+	document.getElementById("📍").value = "";
+}
+bytebeat_examples.forEach(function(e, i){
+	var opt = document.createElement("option");
+	opt.value = i;
+	opt.innerHTML = e.title.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+	document.getElementById("🎶" + e.khz).appendChild(opt);
+});
+document.getElementById("📍").onchange = function(){
+	if(this.value != ""){
+		document.getElementById("🛑").style.display = "none";
+		var it = bytebeat_examples[this.value];
+		document.getElementById("📝").value = it.value;
+		document.getElementById("🔢2_0").value = it.khz * 1000;
+		document.getElementById("🔢2_2").value = it.quality;
+	}
+}
+</script>
+</body>
+</html>

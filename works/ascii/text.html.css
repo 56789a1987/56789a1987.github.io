@@ -1,0 +1,172 @@
+@charset "utf-8";
+
+* {
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
+}
+body {
+	background: url(background.png);
+	margin: 0;
+	text-align: center;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	/*font-family: "思源黑体", "Source Han Sans", "sans-serif";*/
+}
+
+.cont {
+	width: 800px;
+	box-sizing: border-box;
+	border: 1px solid #666;
+	border-radius: 10px;
+	box-shadow: 0 5px 10px #222;
+	margin: 0 auto;
+	margin-top: 20px;
+	overflow: hidden;
+	background: #333;
+	color: #999;
+	font-family: inherit;
+}
+.cont .cont_title {
+	background: #666;
+	color: #FFF;
+	font-size: 20px;
+	padding: 3px;
+	margin-bottom: 20px;
+}
+.cont input[type="radio"], .cont input[type="checkbox"] {
+	display: none;
+}
+.cont .line {
+	margin: 15px 0;
+}
+.cont .line select.select_wide {
+	font-family: inherit;
+	margin-left: 10px;
+	width: 650px;
+	background: #333;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 5px;
+	color: inherit;
+}
+.cont .line select.select_wide option {
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 30px;
+	background: #333;
+	color: #999;
+}
+.cont .line textarea {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	width: 730px;
+	height: 250px;
+	background: #393939;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 5px;
+	color: inherit;
+	box-shadow: 0 0 10px #272727 inset;
+	resize: vertical;
+}
+::selection, .cont .line textarea::selection, .cont .line input[type="number"]::selection {
+	background: #CCC;
+	color: #333;
+}
+.cont .line input[type="number"] {
+	margin-left: 10px;
+	width: 80px;
+	background: #333;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 5px;
+	color: inherit;
+}
+.cont .line select:focus, .cont .line textarea:focus, .cont .line input[type="number"]:focus {
+	border-color: #999;
+	box-shadow: 0 0 0 3px rgba(127,127,127,.4);
+}
+.cont .line button {
+	background: linear-gradient(#555, #333);
+	display: inline-block;
+	padding: 5px 10px;
+	margin: 0 7px;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	color: #CCC;
+	font-size: 20px;
+	font-family: inherit;
+	text-decoration: none;
+	box-shadow: 0 0 15px #222;
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.cont .line button:hover {
+	background: linear-gradient(#666, #444);
+}
+.cont .line button:active {
+	background: linear-gradient(#444, #666);
+}
+.cont .line .error {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	font-size: 14px;
+	text-align: left;
+	margin-top: 2px;
+	padding-left: 118px;
+	padding-right: 20px;
+	color: #A34;
+	line-height: 20px;
+	word-break: break-all;
+}
+.cont .line#tab {
+	margin: 0 27px;
+	text-align: left;
+}
+.cont .line.tabc3 {
+	margin-left: 27px;
+	text-align: left;
+}
+.cont .line#tab label, .cont .line.tabc3 label {
+	display: inline-block;
+	border: 1px solid #666;
+	border-left: none;
+	padding: 5px 10px;
+	font-size: 16px;
+	height: 20px;
+	line-height: 20px;
+	transition: all .5s;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.cont .line#tab label:hover, .cont .line.tabc3 label:hover {
+	background: #444;
+	color: #CCC;
+}
+.cont .line#tab label:first-child, .cont .line.tabc3 label:first-child {
+	margin-left: 10px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-left: 1px solid #666;
+}
+.cont .line#tab label:last-child, .cont .line.tabc3 label:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.cont #tab1:checked~#tab #tabb1, .cont #tab2:checked~#tab #tabb2, .cont #tab3:checked~#tab #tabb3,
+.cont #char1:checked~#char_lst #char_t1, .cont #char2:checked~#char_lst #char_t2, .cont #char3:checked~#char_lst #char_t3 {
+	color: #EEE;
+	background: #555;
+}
+.cont .tabc1, .cont .tabc3 {
+	display: none;
+}
+.cont #tab1:checked~.tabc1, .cont #tab3:checked~.tabc3 {
+	display: block;
+}

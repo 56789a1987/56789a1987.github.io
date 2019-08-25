@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Welcome!</title>
+<style type="text/css">
+@keyframes playing {
+	0% { transform: rotate(0deg);box-shadow: 0 0 0 0 #FFF; }
+	50% { transform: rotate(180deg);box-shadow: 0 0 10px 0 #FFF; }
+	100% { transform: rotate(360deg);box-shadow: 0 0 0 0 #FFF; }
+}
+
+body{
+	background: #000;
+	--bgmvmtx: 20;
+	--bgmvmty: 20;
+	--fontsize: 0;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#background{
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	transform: translate(calc(var(--bgmvmtx) * .4px), calc(var(--bgmvmty) * .4px));
+}
+
+#mt{
+	position: absolute;
+	visibility: hidden;
+	font-size: calc(var(--fontsize) * 1px);
+}
+#t{
+	position: absolute;
+	color: rgba(255,255,255,.9);
+	text-shadow: calc(var(--fontsize) * var(--bgmvmtx) / 250 * 1px) calc(var(--fontsize) * var(--bgmvmty) / 250 * 1px) calc(var(--fontsize) / 40 * 1px) rgba(255,255,255,.5);
+	white-space: nowrap;
+	transform: translate(calc(var(--bgmvmtx) * 1px), calc(var(--bgmvmty) * 1px));
+	font-size: calc(var(--fontsize) * 1px);
+}
+
+#titlebar{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	box-sizing: border-box;
+	height: 48px;
+	background: rgba(64,64,64,.75);
+	color: #FFFFFF;
+	overflow: hidden;
+}
+#title{
+	float: left;
+	color: #FFF;
+	font-size: 26px;
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	line-height: 48px;
+	margin-left: 10px;
+}
+#playb{
+	float: right;
+	height: 32px;
+	width: 32px;
+	margin: 8px;
+	background: url("media/music_note.png");
+	border-radius: 16px;
+	cursor: pointer;
+}
+#playb.playing{
+	animation: playing 4s linear 0s infinite normal;
+}
+
+#footer{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 24px;
+	padding: 5px;
+	background: rgba(64,64,64,.75);
+	overflow: hidden;
+}
+#footer .nav_b{
+	display: block;
+	text-decoration: none;
+	float: right;
+	margin-left: 5px;
+	background: url("media/nav_ico.png");
+	background-position: 0 0;
+	height: 32px;
+	width: 32px;
+}
+#footer .nav_b:hover{
+	background-position-y: -32px;
+}
+</style>
+</head>
+
+<body>
+<div id="background">
+  <canvas></canvas>
+</div>
+<div id="mt"></div>
+<div id="t"></div>
+
+<audio id="bgm" preload="auto" loop >
+  <source src="media/rain_summer_local.mp3" type="audio/mpeg">
+</audio>
+
+<div id="titlebar"><div id="title" title="★">Polyethylene's Pages</div><div id="playb"></div></div>
+<div id="footer">
+  <a class="nav_b" title="源代码" style="background-position-x: -32px;" href="code"></a>
+  <!--a class="nav_b" title="图像" href="img"></a-->
+  <a class="nav_b" title="项目" style="background-position-x: -64px;" href="works"></a>
+</div>
+
+<script src="media/game0.js" language="javascript"></script>
+<script src="background.js" language="javascript"></script>
+<script language="javascript">
+var pl = false, mx, my;
+const _me = document.getElementById("mt"), _e = document.getElementById("t"),
+onresize = function(){
+	document.body.style.setProperty("--fontsize", window.innerWidth / _me.innerHTML.length / 1.1);
+	_e.style.left = window.innerWidth / 2 - _me.offsetWidth / 2 + "px";
+	_e.style.top = window.innerHeight / 2 - _me.offsetHeight / 2 + "px";
+},
+setpos = function(x, y){
+	document.body.style.setProperty("--bgmvmtx", - x);
+	document.body.style.setProperty("--bgmvmty", - y);
+	mx = -x, my = -y;
+},
+onmousemove = function(e){
+	if(pl) return;
+	setpos(e.pageX / window.innerWidth * 40 - 20, e.pageY / window.innerHeight * 40 - 20);
+},
+ontouch = function(e){
+	if(pl) return;
+	setpos(e.touches[0].pageX / window.innerWidth * 40 - 20, e.touches[0].pageY / window.innerHeight * 40 - 20);
+};
+window.addEventListener("resize", onresize);
+window.addEventListener("mousemove", onmousemove);
+window.addEventListener("touchstart", ontouch);
+window.addEventListener("touchmove", ontouch);
+onresize();
+
+var bgm = document.getElementById("bgm"), pb = document.getElementById("playb"), sg = null, bd;
+bgm.onplay = function(){ pb.classList.add("playing"); };
+bgm.onpause = function(){ pb.classList.remove("playing"); };
+var pbmd = function(e){ e.preventDefault(), bd = true, pl = false, sg = setTimeout(function(){ pl = true, playgame(); }, 3000); },
+pbmu = function(){ if(!bd) return; bd = false; if(!pl) clearTimeout(sg), bgm.paused ? bgm.play() : bgm.pause(); };
+pb.addEventListener("mousedown", pbmd), pb.addEventListener("touchstart", pbmd);
+window.addEventListener("mouseup", pbmu), window.addEventListener("touchend", pbmu);
+window.gamestartcall = function(){ pl = true; window.hideBg(); };
+window.gameexitcall = function(){ pl = false; window.showBg(); };
+
+var xmlget,
+wget = function(url, scr){
+	if(url == null) return;
+	xmlget = null;
+	if (window.XMLHttpRequest) xmlget = new XMLHttpRequest();
+	var state_Change = function(){
+		if (xmlget.readyState == 4)
+			if (xmlget.status == 200) scr(xmlget.responseText);
+	}
+	if (xmlget != null) xmlget.onreadystatechange = state_Change, xmlget.open("GET", url, true), xmlget.send(null);
+}
+wget("motto.txt", function(e){
+	var tl = e.split("\n");
+	var num = parseInt(Math.random() * tl.length);
+	document.getElementById("mt").innerHTML = tl[num];
+	document.getElementById("t").innerHTML = tl[num];
+	onresize();
+});
+</script>
+</body>
+</html>

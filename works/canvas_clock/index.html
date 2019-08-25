@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Canvas Clock</title>
+<style>
+body {
+	background: radial-gradient(200% 100% at bottom center, #f7f7b6, #e96f92, #75517d, #1b2947);
+	background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+	background-attachment: fixed;
+	overflow: hidden;
+}
+ @keyframes rotate {
+ 0% {
+ transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+}
+ 100% {
+ transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+}
+}
+.stars {
+	transform: perspective(500px);
+	transform-style: preserve-3d;
+	position: absolute;
+	bottom: 0;
+	perspective-origin: 50% 100%;
+	left: 50%;
+	animation: rotate 90s infinite linear;
+}
+.star {
+	width: 2px;
+	height: 2px;
+	background: #F7F7B6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: 0 0 -300px;
+	transform: translate3d(0, 0, -300px);
+	backface-visibility: hidden;
+}
+#canvas {
+	position: absolute;
+	left: calc(50% - 485px);
+	top: calc(50% - 100px);
+}
+</style>
+</head>
+
+<body>
+<div class="stars"></div>
+<canvas id="canvas" height="200px" width="970px;"></canvas>
+
+<script language="javascript">
+var stars = 800, $stars = document.querySelector(".stars"), r = 800;
+for (var i = 0; i < stars; i++) {
+	let $star = document.createElement("div");
+	$star.classList.add("star"), $stars.appendChild($star);
+}
+document.querySelectorAll(".star").forEach(function (cur) {
+	var s = 0.2 + Math.random(), curR = Math.random() * 300 + r;
+	cur.style.transformOrigin = "0 0 " + curR + "px", cur.style.transform = " translate3d(0,0,-" + curR + "px) rotateY(" + (Math.random() * 360) + "deg) rotateX(" + (Math.random() * -50) + "deg) scale(" + s + "," + s + ")";
+});
+
+
+var line = [
+	[
+		[ 0, 0,22, 1, 2, 0, 0],
+		[ 0,21,22, 0, 2, 3, 0],
+		[20,20, 0, 0, 0, 4, 4],
+		[19,19, 0, 0, 0, 5, 5],
+		[18,18, 0, 0, 0, 6, 6],
+		[17,17, 0, 0, 0, 7, 7],
+		[16,16, 0, 0, 0, 8, 8],
+		[15,15, 0, 0, 0, 9, 9],
+		[ 0,14,13, 0,11,10, 0],
+		[ 0, 0,13,12,11, 0, 0]
+	],//0
+	[
+		[ 0, 0, 0, 2, 2, 0, 0],
+		[ 0, 1, 1, 3, 3, 0, 0],
+		[ 0, 0, 0, 4, 4, 0, 0],
+		[ 0, 0, 0, 5, 5, 0, 0],
+		[ 0, 0, 0, 6, 6, 0, 0],
+		[ 0, 0, 0, 7, 7, 0, 0],
+		[ 0, 0, 0, 8, 8, 0, 0],
+		[ 0, 0, 0, 9, 9, 0, 0],
+		[ 0, 0, 0,10,10, 0, 0],
+		[14,13,12,11,11,12,13]
+	],//1
+	[
+		[ 0, 2, 2, 3, 4, 4, 0],
+		[ 1, 1, 0, 0, 0, 5, 5],
+		[ 0, 0, 0, 0, 0, 6, 6],
+		[ 0, 0, 0, 0, 7, 7, 0],
+		[ 0, 0, 0, 8, 8, 0, 0],
+		[ 0, 0, 9, 9, 0, 0, 0],
+		[ 0,10,10, 0, 0, 0, 0],
+		[11,11, 0, 0, 0, 0, 0],
+		[12,12, 0, 0, 0,18,18],
+		[13,13,14,15,16,17,17]
+	],//2
+	[
+		[ 1, 2, 3, 4, 5, 6, 6],
+		[ 0, 0, 0, 0, 0, 7, 7],
+		[ 0, 0, 0, 0, 8, 8, 0],
+		[ 0, 0, 0, 9, 9, 0, 0],
+		[ 0, 0,10,10,10, 0, 0],
+		[ 0, 0, 0,11,11, 0, 0],
+		[ 0, 0, 0, 0,12,12, 0],
+		[ 0, 0, 0, 0, 0,13,13],
+		[18,18, 0, 0, 0,14,14],
+		[ 0,17,17,16,15,15, 0]
+	],//3
+	[
+		[ 0, 0, 0, 0,11,11, 0],
+		[ 0, 0, 0,10,10,12, 0],
+		[ 0, 0, 9, 9,13,13, 0],
+		[ 0, 8, 8, 0,14,14, 0],
+		[ 7, 7, 0, 0,15,15, 0],
+		[ 6, 6, 5, 4, 3, 2, 1],
+		[ 0, 0, 0, 0,17,17, 0],
+		[ 0, 0, 0, 0,18,18, 0],
+		[ 0, 0, 0, 0,19,19, 0],
+		[ 0, 0, 0, 0,20,20, 0]
+	],//4
+	[
+		[ 7, 6, 5, 4, 3, 2, 1],
+		[ 8, 8, 0, 0, 0, 0, 0],
+		[ 9, 9, 0, 0, 0, 0, 0],
+		[10,10,11,12,13,13, 0],
+		[ 0, 0, 0, 0, 0,14,14],
+		[ 0, 0, 0, 0, 0,15,15],
+		[ 0, 0, 0, 0, 0,16,16],
+		[ 0, 0, 0, 0, 0,17,17],
+		[22,22, 0, 0, 0,18,18],
+		[ 0,21,21,20,19,19, 0]
+	],//5
+	[
+		[ 0, 0, 0, 0, 1, 1, 0],
+		[ 0, 0, 2, 2, 0, 0, 0],
+		[ 0, 3, 3, 0, 0, 0, 0],
+		[ 4, 4, 0, 0, 0, 0, 0],
+		[ 5, 5,19,18,17,17, 0],
+		[ 6, 6, 0, 0, 0,16,16],
+		[ 7, 7, 0, 0, 0,15,15],
+		[ 8, 8, 0, 0, 0,14,14],
+		[ 9, 9, 0, 0, 0,13,13],
+		[ 0,10,10,11,12,12, 0]
+	],//6
+	[
+		[ 2, 2, 3, 4, 5, 6, 6],
+		[ 1, 1, 0, 0, 0, 7, 7],
+		[ 0, 0, 0, 0, 8, 8, 0],
+		[ 0, 0, 0, 0, 9, 9, 0],
+		[ 0, 0, 0,10,10, 0, 0],
+		[ 0, 0, 0,11,11, 0, 0],
+		[ 0, 0,12,12, 0, 0, 0],
+		[ 0, 0,13,13, 0, 0, 0],
+		[ 0, 0,14,14, 0, 0, 0],
+		[ 0, 0,15,15, 0, 0, 0]
+	],//7
+	[
+		[ 0, 4, 4, 5, 6, 6, 0],
+		[ 3, 3, 0, 0, 0, 7, 7],
+		[ 2, 2, 0, 0, 0, 8, 8],
+		[ 1, 1, 0, 0, 0, 9, 9],
+		[ 0,12,12,11,10,10, 0],
+		[13,13, 0, 0, 0,23,23],
+		[14,14, 0, 0, 0,22,22],
+		[15,15, 0, 0, 0,21,21],
+		[16,16, 0, 0, 0,20,20],
+		[ 0,17,17,18,19,19, 0]
+	],//8
+	[
+		[ 0, 7, 7, 8, 9, 9, 0],
+		[ 6, 6, 0, 0, 0,10,10],
+		[ 5, 5, 0, 0, 0,11,11],
+		[ 4, 4, 0, 0, 0,12,12],
+		[ 0, 3, 3, 2, 1,13,13],
+		[ 0, 0, 0, 0, 0,14,14],
+		[ 0, 0, 0, 0, 0,15,15],
+		[ 0, 0, 0, 0,16,16, 0],
+		[ 0, 0, 0,17,17, 0, 0],
+		[ 0,18,18, 0, 0, 0, 0]
+	],//9
+	[
+		[ 0, 0, 0, 0],
+		[ 0, 0, 0, 0],
+		[ 0, 1,12.5, 0],
+		[ 0,37.5,25, 0],
+		[ 0, 0, 0, 0],
+		[ 0, 0, 0, 0],
+		[ 0, 1,12.5, 0],
+		[ 0,37.5,25, 0],
+		[ 0, 0, 0, 0],
+		[ 0, 0, 0, 0]
+	]//:
+],
+
+canvas = document.getElementById("canvas"), ctx = canvas.getContext("2d"),
+timer = function () {
+	var time = new Date();
+	var h = time.getHours(),
+		m = time.getMinutes(),
+		s = time.getSeconds();
+	var t = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+	var r = new Array();
+	for (var o = 0; o < line[0].length; o++) r[o] = [];
+	for (var i = 0; i < t.length; i++) {
+		let d = t.charAt(i) == ":" ? 10 : Number(t.charAt(i));
+		for (var o = 0; o < line[d].length; o++) {
+			for(var j = 0; j < line[d][o].length; j ++) r[o].push(line[d][o][j]);
+			r[o].push(0);
+		}
+	}
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.strokeStyle = "rgba(255,255,255,.4)", ctx.lineWidth = 2, ctx.fillStyle = "rgba(255,255,255,.2)";
+	for (let y = 0; y < r.length; y++){
+		for (let x = 0; x < r[y].length; x++){
+			if (r[y][x] > 0){
+				setTimeout(function(){
+					ctx.strokeRect(x * 17 + 1, y * 17 + 1, 12, 12);
+					ctx.fillRect(x * 17, y * 17, 14, 14);
+				}, r[y][x] * 20);
+			}
+		}
+	}
+	setTimeout(timer, 1000);
+}
+timer();
+
+</script>
+</body>
+</html>

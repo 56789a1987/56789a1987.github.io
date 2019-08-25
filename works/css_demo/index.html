@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Pure CSS foldable menu</title>
+<style>
+* {
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
+}
+body {
+	margin: 0;
+	font-family: "思源黑体", "Source Han Sans", "sans-serif";
+}
+.cont {
+	float: left;
+	margin: 20px 0 0 20px;
+	width: 500px;
+	color: #333;
+}
+.cont input {
+	display: none;
+}
+.cont .nav-btn {
+	display: block;
+	line-height: 34px;
+	height: 34px;
+	padding: 0 10px;
+	box-sizing: border-box;
+	border: 1px solid #CCC;
+	background: #EEE;
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.cont .nav-btn:hover {
+	background: #FFF;
+}
+.cont .cont-box {
+	overflow: hidden;
+	width: 100%;
+	box-sizing: border-box;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+}
+.cont .nav-btn, .cont .cont-box {
+	transition: all .5s;
+}
+
+.cont .cont-box {
+	height: 0;
+}
+.cont input:checked + div .nav-btn {
+	background: #F7F7F7;
+}
+.cont input:checked + div .cont-box {
+	height: 350px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="cont">
+	
+	<input name="radio" type="radio" id="_radio1" checked="checked"/>
+	<div>
+		<label class="nav-btn" for="_radio1">单选菜单</label>
+		<div class="cont-box">
+			<h2>&nbsp;&nbsp;单选菜单</h2>
+			<p>&nbsp;&nbsp;&nbsp;点击以下标题以查看效果</p>
+		</div>
+	</div>
+	
+	<input name="radio" type="radio" id="_radio2"/>
+	<div>
+		<label class="nav-btn" for="_radio2">项目 1</label>
+		<div class="cont-box">
+			<img src="img0.jpg" />
+		</div>
+	</div>
+	
+	<input name="radio" type="radio" id="_radio3"/>
+	<div>
+		<label class="nav-btn" for="_radio3">项目 2</label>
+		<div class="cont-box" style="">
+			<img src="img1.jpg" />
+		</div>
+	</div>
+	
+	<input name="radio" type="radio" id="_radio4"/>
+	<div>
+		<label class="nav-btn" for="_radio4">项目 3</label>
+		<div class="cont-box">
+			<img src="img0.png" />
+		</div>
+	</div>
+	
+	<input name="radio" type="radio" id="_radio5"/>
+	<div>
+		<label class="nav-btn" for="_radio5">项目 4</label>
+		<div class="cont-box">
+			<img src="img1.png" />
+		</div>
+	</div>
+	
+</div>
+
+<div class="cont">
+	
+	<input name="check" type="checkbox" id="_check1" checked="checked"/>
+	<div>
+		<label class="nav-btn" for="_check1">多选菜单</label>
+		<div class="cont-box">
+			<h2>&nbsp;&nbsp;多选菜单</h2>
+			<p>&nbsp;&nbsp;&nbsp;点击以下标题以查看效果</p>
+		</div>
+	</div>
+	
+	<input name="check" type="checkbox" id="_check2"/>
+	<div>
+		<label class="nav-btn" for="_check2">项目 1</label>
+		<div class="cont-box">
+			<img src="img2.jpg" />
+		</div>
+	</div>
+	
+	<input name="check" type="checkbox" id="_check3"/>
+	<div>
+		<label class="nav-btn" for="_check3">项目 2</label>
+		<div class="cont-box">
+			<img src="img3.jpg" />
+		</div>
+	</div>
+	
+	<input name="check" type="checkbox" id="_check4"/>
+	<div>
+		<label class="nav-btn" for="_check4">项目 3</label>
+		<div class="cont-box">
+			<img src="img2.png" />
+		</div>
+	</div>
+	
+	<input name="check" type="checkbox" id="_check5"/>
+	<div>
+		<label class="nav-btn" for="_check5">项目 4</label>
+		<div class="cont-box">
+			<img src="img3.png" />
+		</div>
+	</div>
+	
+</div>
+
+<div style="height: 20px; width: 100%; float: left;"></div>
+
+</body>
+</html>

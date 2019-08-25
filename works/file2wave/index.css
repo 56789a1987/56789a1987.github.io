@@ -1,0 +1,171 @@
+@charset "utf-8";
+
+* {
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
+}
+body {
+	background: url(background.png);
+	margin: 0;
+	text-align: center;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+}
+.📖 {
+	width: 600px;
+	box-sizing: border-box;
+	border: 1px solid #666;
+	border-radius: 10px;
+	box-shadow: 0 5px 10px #222;
+	margin: 0 auto;
+	margin-top: 20px;
+	overflow: hidden;
+	background: #333;
+	color: #999;
+	font-family: inherit;
+}
+.📖.📗 {
+	height: 200px;
+}
+.📖 .🐴 {
+	background: #666;
+	color: #FFF;
+	font-size: 20px;
+	padding: 3px;
+}
+.📖 .🐎 .═ {
+	margin-top: 10px;
+}
+.📖 .🐎 .═t {
+	margin-top: 0;
+	line-height: 40px;
+	font-size: 18px;
+	color: #CCC;
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.📖 .🐎 .📑 {
+	overflow: hidden;
+	height: 0;
+	transition: all .5s;
+}
+.📖 .🐎 #tab1:checked~.📑, .📖 .🐎 #tab2:checked~.📑 {
+	height: 420px;
+}
+.📖 .🐎 .═t:hover {
+	color: #FFF;
+	background: #444;
+}
+.📖 .🐎 #tab1:checked~label .═t, .📖 .🐎 #tab2:checked~label .═t {
+	background: #444;
+}
+.📖 .🐎 hr {
+	margin: 0 10px;
+	border: none;
+	border-bottom: 1px solid #666;
+}
+.📖 .🐎 .═ input[type="number"] {
+	margin-left: 10px;
+	width: 80px;
+	background: #333;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 5px;
+	color: inherit;
+}
+.📖 .🐎 .═ input[type="checkbox"] {
+	filter: invert(1);
+}
+.📖 .🐎 .═ #📍 {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	margin-left: 10px;
+	width: 480px;
+	background: #333;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 5px;
+	color: inherit;
+}
+.📖 .🐎 .═ #📍 option, .📖 .🐎 .═ #📍 optgroup {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	line-height: 30px;
+	font-size: 14px;
+	background: #333;
+	color: #999;
+}
+.📖 .🐎 .═ #📍 optgroup {
+	font-size: 16px;
+}
+.📖 .🐎 .═ textarea {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	width: 540px;
+	height: 200px;
+	background: #393939;
+	border: 1px solid #666;
+	border-radius: 5px;
+	font-size: 14px;
+	padding: 5px;
+	color: inherit;
+	box-shadow: 0 0 10px #272727 inset;
+	resize: none;
+}
+.📖 .🐎 .═ input[type="number"]::selection, .📖 .🐎 .═ textarea::selection {
+	background: #CCC;
+	color: #333;
+}
+.📖 .🐎 .═ input[type="number"]:focus, .📖 .🐎 .═ textarea:focus, .📖 .🐎 .═ #📍:focus {
+	border-color: #999;
+	box-shadow: 0 0 0 3px rgba(127,127,127,.4);
+}
+.📖 .🐎 .═ #🛑 {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	font-size: 14px;
+	text-align: left;
+	padding: 0 20px;
+	color: #A34;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	word-break: break-all;
+}
+.📖 .🐎 .═.═p {
+	padding: 0 20px;
+	text-align: left;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.📖 .🐎 .📑 label, .📖 .🐎 .═ #💾 {
+	background: linear-gradient(#555, #333);
+	display: inline-block;
+	padding: 5px 10px;
+	margin: 0 10px;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	color: #CCC;
+	font-size: 20px;
+	text-decoration: none;
+	box-shadow: 0 0 15px #222;
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.📖 .🐎 .📑 label:hover, .📖 .🐎 .═ #💾:hover {
+	background: linear-gradient(#666, #444);
+}
+.📖 .🐎 .📑 label:active, .📖 .🐎 .═ #💾:active {
+	background: linear-gradient(#444, #666);
+}
+.📖 .🐎 #📂, .📖 .🐎 input[type="radio"] {
+	display: none;
+}
+.📖 .🐎 audio {
+	width: 550px;
+}

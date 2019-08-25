@@ -1,0 +1,80 @@
+.CodeMirror {
+	position:absolute;
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+	padding-top:28px;
+	padding-bottom:18px;
+	box-sizing:border-box;
+}
+.CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div{
+	background:rgba(255,255,255,.25);
+}
+.CodeMirror-overlayscroll-horizontal div:hover, .CodeMirror-overlayscroll-vertical div:hover{
+	background:rgba(255,255,255,.5);
+}
+
+.run-bar {
+	position:absolute;
+	left:0;
+	top:0;
+	height:28px;
+	width:100%;
+	overflow: hidden;
+	background:#FF7F00;
+	border-bottom:1px solid #999;
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	line-height:28px;
+	color:#FFF;
+	box-sizing:border-box;
+	padding:0 5px;
+	cursor:pointer;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	z-index:9;
+}
+.run-bar:hover { background:#FF8F21; }
+.run-bar:active { background:#E06F00; }
+.run-bar #output {
+	font-size:18px;
+}
+.run-bar .run-icon {
+	position:absolute;
+	right:5px;
+	top:0;
+	font-size:26px;
+}
+
+.status-bar {
+	position:absolute;
+	left:0;
+	bottom:0;
+	height:18px;
+	width:100%;
+	background:#666666;
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	line-height:18px;
+	color:#FFF;
+	box-shadow: 0 0 2px #0f0;
+	box-sizing:border-box;
+	padding:0 5px;
+	user-select:none;
+	z-index:9;
+}
+.status-bar #getcode{
+	border-right:1px solid #999;
+	padding-right:5px;
+	float:left;
+	cursor:pointer;
+}
+.status-bar #getcode:hover{ background:rgba(255,255,255,.25); }
+.status-bar #getcode:active{ background:rgba(255,255,255,.1); }
+.status-bar #statistic, .status-bar #curpos{
+	border-left:1px solid #999;
+	padding-left:5px;
+	margin-left:5px;
+	float:right;
+}

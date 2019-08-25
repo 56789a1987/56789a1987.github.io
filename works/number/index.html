@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>*A*B</title>
+<link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+<div class="container">
+	<div class="list"></div>
+	<div class="input">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</div>
+	<div class="keys">
+		<li id="key_1">1</li>
+		<li id="key_2">2</li>
+		<li id="key_3">3</li>
+		<li id="key_4">4</li>
+		<li id="key_5">5</li>
+		<li id="key_6">6</li>
+		<li id="key_7">7</li>
+		<li id="key_8">8</li>
+		<li id="key_9">9</li>
+		<li id="key_del">&#8592;</li>
+		<li id="key_0">0</li>
+		<li id="key_ok">&#8730;</li>
+	</div>
+	<div class="bar">
+		A - 相同的数字, 相同的位置<br />B - 相同的数字, 不同的位置
+	</div>
+	<div class="bar" id="attempt"></div>
+	<div class="reset">重新开始(R)</div>
+</div>
+<div class="model" style="display: none;">
+	<div id="msg"></div>
+</div>
+
+<script language="javascript">
+const lst = document.querySelector(".list");
+let n = [], rc = [], inp = [], inph = [], now = 0, ind = 0, sm = false;
+document.querySelectorAll(".input li").forEach(function(e, i) { inph[i] = e; });
+const init = function() {
+	n[0] = parseInt(Math.random() * 10);
+	n[1] = parseInt(Math.random() * 10);
+	while(n[1] === n[0]) n[1] = parseInt(Math.random() * 10);
+	n[2] = parseInt(Math.random() * 10);
+	while(n[2] === n[0] || n[2] === n[1]) n[2] = parseInt(Math.random() * 10);
+	n[3] = parseInt(Math.random() * 10);
+	while(n[3] === n[0] || n[3] === n[1] || n[3] === n[2]) n[3] = parseInt(Math.random() * 10);
+	console.log(n.join(""));
+	lst.innerHTML = "", inp = [], now = ind = 0, rc = [], sm = false;
+	inph.forEach(function(e) { e.innerHTML = ""; });
+	for(let i = 0; i < 10; i ++) document.getElementById("key_" + i).classList.remove("disabled");
+	document.getElementById("key_ok").classList.add("disabled");
+	document.querySelector(".model").style.display = "none";
+	document.getElementById("attempt").innerHTML = "<br>attempt: " + ind + "/10";
+}
+document.querySelectorAll(".keys li").forEach(function(e) {
+	e.addEventListener("click", function() {
+		const tag = e.id.replace(/key_/g, "");
+		if(e.classList.contains("disabled") || sm) return;
+		if(tag === "del") {
+			now --;
+			if(now < 0) now = 0;
+			document.getElementById("key_" + inp[now]).classList.remove("disabled");
+			inph[now].innerHTML = "";
+			document.getElementById("key_ok").classList.add("disabled");
+			return false;
+		}
+		if(tag === "ok") {
+			now = 0;
+			inph.forEach(function(f) {f.innerHTML = ""; });
+			for(let i = 0; i < 10; i ++) document.getElementById("key_" + i).classList.remove("disabled");
+			document.getElementById("key_ok").classList.add("disabled");
+			let A = 0, B = 0;
+			for(let i = 0; i < 4; i ++)
+				for(let j = 0; j < 4; j ++)
+					if(n[i] === inp[j]) i === j ? A ++ : B ++;
+			rc[ind] = inp.join("") + " " + A + "A" + B + "B";
+			inp = [];
+			lst.innerHTML = "<li>" + rc.join("</li><li>") + "</li>";
+			ind ++;
+			document.getElementById("attempt").innerHTML = "<br>attempt: " + ind + "/10";
+			if(A == 4) {
+				document.querySelector("#msg").innerHTML = "回答正确<br><br>正确答案: " + n.join("") + "<br><br>你的答案: (" + rc.join("), (") + ")<br><br>点击任意位置或按下 R 重新开始";
+				document.querySelector(".model").style.display = "block";
+				sm = true;
+			}
+			else if(ind >= 10) {
+				document.querySelector("#msg").innerHTML = "回答错误<br><br>正确答案: " + n.join("") + "<br><br>你的答案: (" + rc.join("), (") + ")<br><br>点击任意位置或按下 R 重新开始";
+				document.querySelector(".model").style.display = "block";
+				sm = true;
+			}
+			return false;
+		}
+		if(now > 3) return;
+		e.classList.add("disabled");
+		inp[now] = Number(tag);
+		inph[now].innerHTML = tag;
+		now ++;
+		if(now >= 4) now = 4, document.getElementById("key_ok").classList.remove("disabled");
+	});
+});
+document.querySelector(".reset").addEventListener("click", function(){ init(); });
+document.querySelector(".model").addEventListener("click", function(){ init(); });
+window.addEventListener("keydown", function(e) {
+	switch(e.keyCode) {
+		case 13: document.getElementById("key_ok").click(); break;
+		case 8: document.getElementById("key_del").click(); break;
+		case 48: case 96: document.getElementById("key_0").click(); break;
+		case 49: case 97: document.getElementById("key_1").click(); break;
+		case 50: case 98: document.getElementById("key_2").click(); break;
+		case 51: case 99: document.getElementById("key_3").click(); break;
+		case 52: case 100: document.getElementById("key_4").click(); break;
+		case 53: case 101: document.getElementById("key_5").click(); break;
+		case 54: case 102: document.getElementById("key_6").click(); break;
+		case 55: case 103: document.getElementById("key_7").click(); break;
+		case 56: case 104: document.getElementById("key_8").click(); break;
+		case 57: case 105: document.getElementById("key_9").click(); break;
+		case 82: init();
+	}
+});
+init();
+</script>
+</body>
+</html>

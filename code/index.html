@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Source Code</title>
+<link rel=stylesheet href="lib/codemirror.css">
+<link rel=stylesheet href="lib/cm_addon/cm-night.css">
+<link rel=stylesheet href="lib/cm_addon/simplescrollbars.css">
+<link rel=stylesheet href="lib/ide.css">
+</head>
+
+<body>
+
+<textarea id="code">"Hello world!";
+//Powered by code-mirror.
+</textarea>
+
+<div class="run-bar" onClick="runCode();">
+  <div id="output"></div>
+  <div class="run-icon">▶</div>
+</div>
+
+<div class="status-bar">
+  <div id="getcode" onClick="wget(prompt('./scripts/[?].txt',''));">Wget</div>
+  <div id="statistic">Lines: 0, Characters: 0</div>
+  <div id="curpos">Line: 0, Column: 0</div>
+</div>
+
+<script src="lib/jquery-1.11.0.min.js" language="javascript"></script>
+<script src="lib/codemirror.js" language="javascript"></script>
+<script src="lib/cm_addon/javascript.js" language="javascript"></script>
+<script src="lib/cm_addon/matchbrackets.js" language="javascript"></script>
+<script src="lib/cm_addon/active-line.js" language="javascript"></script>
+<script src="lib/cm_addon/simplescrollbars.js" language="javascript"></script>
+<script language="javascript">
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+	lineNumbers: true,
+	lineWrapping: true,
+	mode: "text/javascript",
+	styleActiveLine: true,
+	matchBrackets: true,
+	theme: "night",
+	scrollbarStyle: "overlay"
+});
+var txt2htm = function(t){
+	return typeof t == "string" ? (t = t.replace(/&/g, "&amp;"), t = t.replace(/</g, "&lt;"), t = t.replace(/>/g, "&gt;"), t = t.replace(/"/g, "&quot;"), t = t.replace(/\n/g, "<br>")) : t;
+};
+var runCode = function(){
+	var myCode = editor.getValue();
+	try{ document.getElementById("output").innerHTML = txt2htm(eval(myCode)); }
+	catch(e){ document.getElementById("output").innerHTML = txt2htm(e); }
+};
+editor.on("change", function(e){
+	document.getElementById("statistic").innerHTML = "Lines: " + editor.lineCount() + ", Characters: " + editor.getValue().length;
+});
+editor.on("cursorActivity", function(e){
+	var getcur = editor.getCursor();
+	document.getElementById("curpos").innerHTML = "Line: " + (getcur.line + 1) + ", Column: " + getcur.ch;
+});
+var xmlget;
+var wget = function(url){
+	if(url == null) return;
+	editor.setValue("Downloading the file, please wait...\n")
+	var u = "./scripts/" + url + ".txt";
+	xmlget = null;
+	if (window.XMLHttpRequest) xmlget = new XMLHttpRequest();
+	if (xmlget != null) xmlget.onreadystatechange = state_Change, xmlget.open("GET", u, true), xmlget.send(null);
+	else editor.setValue("alert(\"Your browser does not support XMLHTTP.\");\n");
+},
+state_Change = function(){
+	if (xmlget.readyState == 4){
+		if (xmlget.status == 200) editor.setValue(xmlget.responseText);
+		else editor.setValue("alert(\"Problem retrieving XML data: " + xmlget.statusText + "\");\n");
+	}
+};
+window.onload = function(){
+	document.getElementById("statistic").innerHTML = "Lines: " + editor.lineCount() + ", Characters: " + editor.getValue().length;
+	if(location.hash != null && location.hash != "") wget(location.hash.replace(/#/g, ""));
+}
+</script>
+</body>
+</html>

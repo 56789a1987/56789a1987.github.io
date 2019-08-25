@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Text effect converter</title>
+<link rel="stylesheet" href="text.html.css">
+</head>
+
+<body>
+<div class="cont">
+	<div class="cont_title">输入文字</div>
+<div class="line"><textarea id="input">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890
+the quick brown fox jumps over the lazy dog. 1234567890
+!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</textarea></div>
+	<input name="tab_radio" type="radio" id="tab1" checked="checked" />
+	<input name="tab_radio" type="radio" id="tab2" />
+	<input name="tab_radio" type="radio" id="tab3" />
+	<div class="line" id="tab">
+		选择处理方式<label id="tabb1" for="tab1">Mathematical Alphanumeric Symbols</label><label id="tabb3" for="tab3">Glitch Text</label><label id="tabb2" for="tab2">Reverse Text</label>
+	</div>
+	<div class="line tabc1">
+		字母字符集<select class="select_wide" id="letterp"></select>
+		<div class="error" id="reserved" style="display: none;">Some letters not supported by this font will not be converted.</div>
+	</div>
+	<div class="line tabc1">数字字符集<select class="select_wide" id="numberp"></select></div>
+	<input name="char_check" type="checkbox" id="char1" checked="checked" />
+	<input name="char_check" type="checkbox" id="char2" checked="checked" />
+	<input name="char_check" type="checkbox" id="char3" checked="checked" />
+	<div class="line tabc3" id="char_lst">叠加的字符类型<label id="char_t1" for="char1">Superscript</label><label id="char_t2" for="char2">Subscript</label><label id="char_t3" for="char3">Through</label></div>
+	<div class="line tabc3">叠加的上标、下标字符数量<input type="number" pattern="[0-9]*" id="char_c" min="0" step="1" value="10"></div>
+	<div class="line">文字效果并非完全兼容所有环境，不同的系统、程序、字体等环境中所表现的效果可能存在差异</div>
+	<div class="line"><button id="ok">确定</button><button id="empty">清空</button></div>
+</div>
+
+<div class="cont">
+	<div class="cont_title">生成结果</div>
+	<div class="line"><textarea readonly="readonly" id="output"></textarea></div>
+	<div class="line"><button id="cp">复制</button></div>
+</div>
+
+<div style="height: 20px;"></div>
+
+<script src="text-fx.js" language="javascript"></script>
+<script language="javascript">
+for(let i = 0; i <= 14; i ++) {
+	var e = document.createElement("option");
+	e.value = i === 14 ? -1 : i;
+	if(i < 14) e.innerHTML = mathematical_alphanumeric_symbols("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", i);
+	i === 0 && (e.style.color = "#666", e.innerHTML = "[ Do not convert letters ]");
+	i === 14 && (e.style.color = "#06F", e.innerHTML = "[ Random each letter ]");
+	i === 1 && (e.selected = "selected");
+	(i === 2 || i === 4 || i === 6 || i === 7) && (e.style.color = "#B44");
+	document.getElementById("letterp").appendChild(e);
+}
+document.getElementById("letterp").onchange = function() {
+	document.getElementById("reserved").style.display = (this.value == 2 || this.value == 4 || this.value == 6 || this.value == 7) ? "block" : "none";
+}
+for(let i = 0; i <= 6; i ++) {
+	var e = document.createElement("option");
+	e.value = i === 6 ? -1 : i;
+	if(i < 6) e.innerHTML = mathematical_alphanumeric_symbols("0123456789", 0, i);
+	i === 0 && (e.style.color = "#666", e.innerHTML = "[ Do not convert numbers ]");
+	i === 6 && (e.style.color = "#06F", e.innerHTML = "[ Random each number ]");
+	i === 1 && (e.selected = "selected");
+	document.getElementById("numberp").appendChild(e);
+}
+document.getElementById("ok").addEventListener("click", function() {
+	if(document.getElementById("tab1").checked) document.getElementById("output").value = mathematical_alphanumeric_symbols(document.getElementById("input").value, document.getElementById("letterp").value, document.getElementById("numberp").value);
+	if(document.getElementById("tab2").checked) document.getElementById('output').value = reverse_text(document.getElementById("input").value);
+	if(document.getElementById("tab3").checked) document.getElementById('output').value = glitch_text(document.getElementById("input").value, document.getElementById("char_c").value, document.getElementById("char1").checked, document.getElementById("char2").checked, document.getElementById("char3").checked);
+});
+document.getElementById("empty").addEventListener("click", function() { document.getElementById("input").value = ""; });
+document.getElementById("cp").addEventListener("click", function() { document.getElementById("output").select(), document.execCommand("copy"); });
+</script>
+</body>
+</html>
