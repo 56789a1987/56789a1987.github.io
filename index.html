@@ -16,6 +16,7 @@ body{
 	--bgmvmtx: 20;
 	--bgmvmty: 20;
 	--fontsize: 0;
+	--textcolor: #FFFFFF;
 	cursor: default;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -30,7 +31,7 @@ body{
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
-	transform: translate(calc(var(--bgmvmtx) * .4px), calc(var(--bgmvmty) * .4px));
+
 }
 
 #mt{
@@ -41,10 +42,11 @@ body{
 #t{
 	position: absolute;
 	color: rgba(255,255,255,.9);
-	text-shadow: calc(var(--fontsize) * var(--bgmvmtx) / 250 * 1px) calc(var(--fontsize) * var(--bgmvmty) / 250 * 1px) calc(var(--fontsize) / 40 * 1px) rgba(255,255,255,.5);
 	white-space: nowrap;
 	transform: translate(calc(var(--bgmvmtx) * 1px), calc(var(--bgmvmty) * 1px));
+	text-shadow: calc(var(--fontsize) * var(--bgmvmtx) / 250 * 1px) calc(var(--fontsize) * var(--bgmvmty) / 250 * 1px) calc(var(--fontsize) / 40 * 1px) rgba(0,0,0,.25);
 	font-size: calc(var(--fontsize) * 1px);
+	cursor: help;
 }
 
 #titlebar{
@@ -54,7 +56,7 @@ body{
 	width: 100%;
 	box-sizing: border-box;
 	height: 48px;
-	background: rgba(64,64,64,.75);
+	background: rgba(0,0,0,.75);
 	color: #FFFFFF;
 	overflow: hidden;
 }
@@ -87,7 +89,7 @@ body{
 	box-sizing: border-box;
 	font-size: 24px;
 	padding: 5px;
-	background: rgba(64,64,64,.75);
+	background: rgba(0,0,0,.75);
 	overflow: hidden;
 }
 #footer .nav_b{
@@ -112,9 +114,8 @@ body{
 </div>
 <div id="mt"></div>
 <div id="t"></div>
-
-<audio id="bgm" preload="auto" loop >
-  <source src="media/rain_summer_local.mp3" type="audio/mpeg">
+<audio id="bgm" preload="auto" loop="loop" >
+	<source src="media/rain_summer_local.mp3" type="audio/mpeg">
 </audio>
 
 <div id="titlebar"><div id="title" title="★">Polyethylene's Pages</div><div id="playb"></div></div>
@@ -154,16 +155,30 @@ window.addEventListener("touchmove", ontouch);
 onresize();
 
 var bgm = document.getElementById("bgm"), pb = document.getElementById("playb"), sg = null, bd;
-bgm.onplay = function(){ pb.classList.add("playing"); };
-bgm.onpause = function(){ pb.classList.remove("playing"); };
+bgm.onplay = function(){
+	pb.classList.add("playing");
+	if(typeof(Storage) != "undefined") localStorage.setItem("bgm_autoplay", "true");
+}
+bgm.onpause = function(){
+	pb.classList.remove("playing");
+	if(typeof(Storage) != "undefined") localStorage.setItem("bgm_autoplay", "false");
+}
 var pbmd = function(e){ e.preventDefault(), bd = true, pl = false, sg = setTimeout(function(){ pl = true, playgame(); }, 3000); },
 pbmu = function(){ if(!bd) return; bd = false; if(!pl) clearTimeout(sg), bgm.paused ? bgm.play() : bgm.pause(); };
 pb.addEventListener("mousedown", pbmd), pb.addEventListener("touchstart", pbmd);
 window.addEventListener("mouseup", pbmu), window.addEventListener("touchend", pbmu);
-window.gamestartcall = function(){ pl = true; window.hideBg(); };
-window.gameexitcall = function(){ pl = false; window.showBg(); };
+window.gamestartcall = function(){ pl = true; };
+window.gameexitcall = function(){ pl = false; };
 
-var xmlget,
+var xmlget, tl = [],
+randtxt = function(){
+	if(tl.length === 0) return;
+	backcolor = "hsl(" + (45 + Math.random() * 135) + ",75%,50%)";
+	var num = parseInt(Math.random() * tl.length);
+	document.getElementById("mt").innerHTML = tl[num];
+	document.getElementById("t").innerHTML = tl[num];
+	onresize();
+},
 wget = function(url, scr){
 	if(url == null) return;
 	xmlget = null;
@@ -175,12 +190,13 @@ wget = function(url, scr){
 	if (xmlget != null) xmlget.onreadystatechange = state_Change, xmlget.open("GET", url, true), xmlget.send(null);
 }
 wget("motto.txt", function(e){
-	var tl = e.split("\n");
-	var num = parseInt(Math.random() * tl.length);
-	document.getElementById("mt").innerHTML = tl[num];
-	document.getElementById("t").innerHTML = tl[num];
-	onresize();
+	tl = e.split("\n");
+	randtxt();
 });
+document.getElementById("t").addEventListener("click", randtxt);
+window.onload = function(){
+	if(localStorage.getItem("bgm_autoplay") == "true") bgm.autoplay = "autoplay";
+}
 </script>
 </body>
 </html>
