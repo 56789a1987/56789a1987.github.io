@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <title>Source Code</title>
-<link rel=stylesheet href="lib/codemirror.css">
-<link rel=stylesheet href="lib/cm_addon/cm-night.css">
-<link rel=stylesheet href="lib/cm_addon/simplescrollbars.css">
-<link rel=stylesheet href="lib/ide.css">
+<link rel="stylesheet" href="lib/codemirror.css">
+<link rel="stylesheet" href="lib/cm_addon/cm-night.css">
+<link rel="stylesheet" href="lib/cm_addon/simplescrollbars.css">
+<link rel="stylesheet" href="lib/ide.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 </textarea>
 
 <div class="run-bar" onClick="runCode();">
-  <div id="output"></div>
+  <div id="output">点击此处运行. Click here to run.</div>
   <div class="run-icon">▶</div>
 </div>
 
@@ -43,16 +43,19 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	theme: "night",
 	scrollbarStyle: "overlay"
 });
+var init_txt = document.getElementById("output").innerHTML;
 var txt2htm = function(t){
 	return typeof t == "string" ? (t = t.replace(/&/g, "&amp;"), t = t.replace(/</g, "&lt;"), t = t.replace(/>/g, "&gt;"), t = t.replace(/"/g, "&quot;"), t = t.replace(/\n/g, "<br>")) : t;
 };
 var runCode = function(){
+	document.querySelector(".run-bar").classList.remove("bar_flash");
 	var myCode = editor.getValue();
 	try{ document.getElementById("output").innerHTML = txt2htm(eval(myCode)); }
 	catch(e){ document.getElementById("output").innerHTML = txt2htm(e); }
 };
 editor.on("change", function(e){
 	document.getElementById("statistic").innerHTML = "Lines: " + editor.lineCount() + ", Characters: " + editor.getValue().length;
+	document.querySelector(".run-bar").classList.remove("bar_flash");
 });
 editor.on("cursorActivity", function(e){
 	var getcur = editor.getCursor();
@@ -61,8 +64,9 @@ editor.on("cursorActivity", function(e){
 var xmlget;
 var wget = function(url){
 	if(url == null) return;
-	editor.setValue("Downloading the file, please wait...\n")
+	editor.setValue("//Downloading the file, please wait...\n");
 	var u = "./scripts/" + url + ".txt";
+	location.hash = "#" + url;
 	xmlget = null;
 	if (window.XMLHttpRequest) xmlget = new XMLHttpRequest();
 	if (xmlget != null) xmlget.onreadystatechange = state_Change, xmlget.open("GET", u, true), xmlget.send(null);
@@ -70,7 +74,10 @@ var wget = function(url){
 },
 state_Change = function(){
 	if (xmlget.readyState == 4){
-		if (xmlget.status == 200) editor.setValue(xmlget.responseText);
+		if (xmlget.status == 200){
+			editor.setValue(xmlget.responseText), document.querySelector(".run-bar").classList.add("bar_flash");
+			document.getElementById("output").innerHTML = init_txt;
+		}
 		else editor.setValue("alert(\"Problem retrieving XML data: " + xmlget.statusText + "\");\n");
 	}
 };

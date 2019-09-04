@@ -1,3 +1,8 @@
+@keyframes bar_flash {
+	0% { background: #FF7F00; }
+	50% { background: #FFCC00; }
+}
+
 .CodeMirror {
 	position:absolute;
 	left:0;
@@ -40,6 +45,9 @@
 .run-bar:active { background:#E06F00; }
 .run-bar #output {
 	font-size:18px;
+}
+.run-bar.bar_flash {
+	animation: bar_flash 1s steps(1) infinite;
 }
 .run-bar .run-icon {
 	position:absolute;
