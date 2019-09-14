@@ -240,7 +240,7 @@ var proj = [
 {
 	link: "OC/polyethylene_m.png",
 	image: "OC/polyethylene_s.png",
-	tag: "var's go!",
+	tag: "Let's go!",
 	title: "Polyethylene",
 	description: "大家好！我叫聚乙烯，一只来自于计算机世界的小马。<br><br>搭建了这个页面，分享部分制作或整理的项目，以及随笔、灵感…",
 	author: "Polyethylene",
@@ -278,7 +278,7 @@ setFilter = function(){
 			if(fkey == "" || fkey == " ") fproj.push(m);
 			else{
 				let keys = fkey.split(" ");
-				keys.forEach(function(t, i){
+				keys.forEach(function(t){
 					if(t != ""){
 						let l = th(m.title).toUpperCase().split(t.toUpperCase()).length - 1;
 						l > 0 && (m.flag += 0xff + l);
