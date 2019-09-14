@@ -306,11 +306,7 @@ document.querySelector(".filterbtn").addEventListener("click", function(){
 	setTimeout(function(){ document.body.classList.contains("searchopen") ? searchbox.focus() : searchbox.blur(); }, 500);
 	document.body.classList.contains("searchopen") || document.querySelector(".menu.mf").classList.remove("menuopen");
 });
-searchbox.addEventListener("input", function(){
-	fkey = this.value;
-	console.log(fkey);
-	setFilter();
-});
+searchbox.addEventListener("input", function(){ fkey = this.value, setFilter(); });
 let mx, my,
 inititem = function(){
 	document.querySelectorAll(".item").forEach(function(m){
