@@ -94,17 +94,17 @@ html, body {
 }
 .topbar .menubtn:before {
 	left: 7px;
-	top: 7px;
-	height: 10px;
+	top: 9px;
+	height: 9px;
 	width: 18px;
-	border-top: 4px solid;
-	border-bottom: 4px solid;
+	border-top: 3px solid;
+	border-bottom: 3px solid;
 }
 .topbar .menubtn:after {
 	left: 7px;
-	top: 14px;
+	top: 15px;
 	width: 18px;
-	border-top: 4px solid;
+	border-top: 3px solid;
 }
 .topbar .filterbtn:before {
 	left: 16px;
@@ -128,7 +128,7 @@ html, body {
 }
 .topbar .backbtn:active, .topbar .backbtn:active:after, .topbar .menubtn:active, .topbar .filterbtn:active {
 	color: #CCCCCC;
-	border-color: #CCCCCC !important;
+	border-color: #CCCCCC;
 }
 body.searchopen .topbar .filterbtn, body.searchopen .topbar .filterbtn:before, body.searchopen .topbar .filterbtn:after {
 	box-shadow: 0 0 5px 0 #FFF, 0 0 5px 0 #FFF inset;
