@@ -228,6 +228,16 @@ var proj = [
 	author_img: "OC/portrait-2.png"
 },
 {
+	link: "OC/polyethylene_z1.png",
+	image: "OC/polyethylene_z1t.png",
+	tag: "Lovely",
+	title: "Polyethylene 同人图 (2)",
+	description: "大家好！我是午夜_Midnight，我又为 Polyethylene 画了一幅同人图。<br><br>(Polyethylene 真可爱)",
+	author: "午夜_Midnight",
+	author_color: "#0066FF",
+	author_img: "images/20190729171416.jpg"
+},
+{
 	link: "OC/polyethylene_z.png",
 	image: "OC/polyethylene_zt.png",
 	tag: "Lovely",
