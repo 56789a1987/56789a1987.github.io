@@ -12,7 +12,6 @@
 }
 
 body{
-	background: #000;
 	--bgmvmtx: 20;
 	--bgmvmty: 20;
 	--fontsize: 0;
@@ -154,7 +153,7 @@ window.addEventListener("touchstart", ontouch);
 window.addEventListener("touchmove", ontouch);
 onresize();
 
-var bgm = document.getElementById("bgm"), pb = document.getElementById("playb"), sg = null, bd;
+var bgm = document.getElementById("bgm"), pb = document.getElementById("playb"), sg = null, bd, lbgm = false;
 bgm.onplay = function(){
 	pb.classList.add("playing");
 	if(typeof(Storage) != "undefined") localStorage.setItem("bgm_autoplay", "true");
@@ -163,12 +162,17 @@ bgm.onpause = function(){
 	pb.classList.remove("playing");
 	if(typeof(Storage) != "undefined") localStorage.setItem("bgm_autoplay", "false");
 }
-var pbmd = function(e){ e.preventDefault(), bd = true, pl = false, sg = setTimeout(function(){ pl = true, playgame(); }, 3000); },
+var pbmd = function(e){
+	e.preventDefault(), bd = true, pl = false, sg = setTimeout(function(){
+		pl = true, lbgm = false, playgame();
+		bgm.paused || (lbgm = true, bgm.pause());
+	}, 3000);
+},
 pbmu = function(){ if(!bd) return; bd = false; if(!pl) clearTimeout(sg), bgm.paused ? bgm.play() : bgm.pause(); };
 pb.addEventListener("mousedown", pbmd), pb.addEventListener("touchstart", pbmd);
 window.addEventListener("mouseup", pbmu), window.addEventListener("touchend", pbmu);
 window.gamestartcall = function(){ pl = true; };
-window.gameexitcall = function(){ pl = false; };
+window.gameexitcall = function(){ pl = false, lbgm && bgm.play(); };
 
 var xmlget, tl = [],
 randtxt = function(){

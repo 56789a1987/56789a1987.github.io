@@ -102,7 +102,8 @@ const click = function(){
 		drawText();
 	}
 }
-window.addEventListener("mousedown", click), window.addEventListener("keyup", click), window.addEventListener("touchstart", click);
+let isTouch = false;
+window.addEventListener("mousedown", function(){ isTouch || click(); }), window.addEventListener("keyup", click), window.addEventListener("touchstart", function(){ click(), isTouch = true; });
 </script>
 
 </body>

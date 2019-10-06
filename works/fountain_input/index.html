@@ -34,21 +34,24 @@ body {
 #input {
 	position: absolute;
 	left: 0;
-	top: 0;
+	bottom: 0;
 	margin: 0;
-	box-sizing: border-box;
-	height: 100%;
+	padding: 0;
+	border: none;
 	width: 100%;
+	height: 100%;
 	opacity: 0;
 	text-align: center;
+	resize: none;
+	transform: rotate(180deg);
 }
 </style>
 </head>
 
 <body>
 <canvas id="renderer"></canvas>
-<div id="hint">输入一些文字…<br />Type something...</div>
-<input id="input" />
+<div id="hint" style="opacity: 0;">输入一些文字…<br />Type something...</div>
+<textarea id="input"></textarea>
 
 <script src="dat.gui.min.js" language="javascript"></script>
 <script language="javascript">
@@ -129,7 +132,10 @@ let guilist = [
 guilist.forEach((e) => e.onFinishChange(() => input.focus()));
 resize();
 window.addEventListener("resize", resize);
-window.onload = () => input.focus();
+window.onload = () => {
+	document.getElementById("hint").style.opacity = 1;
+	input.focus();
+}
 f.onActivate = () => document.getElementById("hint").style.opacity = 0;
 </script>
 </body>

@@ -13,33 +13,49 @@
 	border:1px solid #000000;
 	box-shadow: 0 0 0 1px #FFFFFF;
 }
+button{
+	margin-left: 12px;
+}
 </style>
 </head>
 
 <body>
-起始颜色：<input type="text" id="color1" /><br><br>
-结束颜色：<input type="text" id="color2" /><br><br>
+起始颜色：<input type="text" id="color1" /><button onClick="c_rand(1);">随机</button><br><br>
+结束颜色：<input type="text" id="color2" /><button onClick="c_rand(2);">随机</button><br><br>
 中间颜色数：<input type="number" pattern="[0-9]*" id="steps" max="254" min="0" value="4" onChange="updateColors();" /><br><br>
 <div id="output"></div>
 
 <script src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="spectrum.js" language="javascript"></script>
 <script language="javascript">
-var c1 = { _r: 255, _g: 127, _b: 0 }, c2 = { _r: 0, _g: 127, _b: 255 };
+var rh = function(){ return Math.round(Math.random() * 255); },
+c1 = { _r: rh(), _g: rh(), _b: rh() }, c2 = { _r: rh(), _g: rh(), _b: rh() };
 $("#color1").spectrum({
 	preferredFormat: "hex",
-	color: "#FF7F00",
+	color: "rgb(" + c1._r + "," + c1._g + "," + c1._b + ")",
 	showInput: true,
 	move: function(c){ c1 = c, updateColors(); },
 	hide: function(c){ c1 = c, updateColors(); }
 });
 $("#color2").spectrum({
 	preferredFormat: "hex",
-	color: "#007FFF",
+	color: "rgb(" + c2._r + "," + c2._g + "," + c2._b + ")",
 	showInput: true,
 	move: function(c){ c2 = c, updateColors(); },
 	hide: function(c){ c2 = c, updateColors(); }
 });
+function c_rand(i){
+	switch(i){
+		case 1:
+			c1 = { _r: rh(), _g: rh(), _b: rh() }
+			$("#color1").spectrum("set", "rgb(" + c1._r + "," + c1._g + "," + c1._b + ")");
+			break;
+		case 2:
+			c2 = { _r: rh(), _g: rh(), _b: rh() }
+			$("#color2").spectrum("set", "rgb(" + c2._r + "," + c2._g + "," + c2._b + ")");
+	}
+	updateColors();
+}
 function toHex(r, g, b){
 	r = Math.round(r), g = Math.round(g), b = Math.round(b);
 	var s = "#";

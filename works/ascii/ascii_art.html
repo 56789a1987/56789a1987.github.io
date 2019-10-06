@@ -119,8 +119,9 @@ var lt = 0, down = function(){
 	var nt = new Date().getTime();
 	if(nt - lt < 250) document.getElementById("output").classList.toggle("fullscreen");
 	lt = nt;
-}
-document.getElementById("output").addEventListener("mousedown", down), document.getElementById("output").addEventListener("touchstart", down);
+}, isTouch = false;
+document.getElementById("output").addEventListener("mousedown", function(){ isTouch || down(); });
+document.getElementById("output").addEventListener("touchstart", function(){ down(), isTouch = true; });
 </script>
 
 </body>
