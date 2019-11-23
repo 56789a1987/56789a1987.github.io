@@ -1,13 +1,6 @@
-@keyframes hue {
- 0% { filter: hue-rotate(0deg); }
- 100% { filter: hue-rotate(360deg); }
-}
 @keyframes fadeIn {
  0% { filter: opacity(0); transform: translate(0,30px); }
  100% { filter: none; transform: none; }
-}
-.hue {
-	animation: hue 1s linear infinite;
 }
 .fadeIn {
 	animation: fadeIn 1s ease-out;
@@ -130,8 +123,17 @@ html, body {
 	color: #CCCCCC;
 	border-color: #CCCCCC;
 }
+.topbar .menubtn.menu_open, .topbar .menubtn.menu_open:before, .topbar .menubtn.menu_open:after,
 body.searchopen .topbar .filterbtn, body.searchopen .topbar .filterbtn:before, body.searchopen .topbar .filterbtn:after {
 	box-shadow: 0 0 5px 0 #FFF, 0 0 5px 0 #FFF inset;
+}
+.topbar .menubtn.menu_open, .topbar .menubtn.menu_open:hover:before, .topbar .menubtn.menu_open:hover:after,
+body.searchopen .topbar .filterbtn:hover, body.searchopen .topbar .filterbtn:hover:before, body.searchopen .topbar .filterbtn:hover:after {
+	box-shadow: 0 0 5px 0 #999, 0 0 5px 0 #999 inset;
+}
+.topbar .menubtn.menu_open, .topbar .menubtn.menu_open:active:before, .topbar .menubtn.menu_open:active:after,
+body.searchopen .topbar .filterbtn:active, body.searchopen .topbar .filterbtn:active:before, body.searchopen .topbar .filterbtn:active:after {
+	box-shadow: 0 0 5px 0 #CCC, 0 0 5px 0 #CCC inset;
 }
 .topbar .menu {
 	position: absolute;
@@ -145,6 +147,8 @@ body.searchopen .topbar .filterbtn, body.searchopen .topbar .filterbtn:before, b
 	-ms-user-select: none;
 	user-select: none;
 	width: 240px;
+	max-height: calc(100vh - 45px);
+	overflow-y: auto;
 }
 .topbar .menu.mf {
 	top: 31px;
@@ -486,12 +490,6 @@ body.dark .item .desc {
 }
 body {
 	background-color: #EEEEEE;
-	background-image: linear-gradient(rgba(255,255,255,.1),transparent,rgba(0,0,0,.1));
-	background-attachment: fixed;
-	transition: background .5s;
-}
-body.dark {
-	background-color: #111111;
 }
 #background {
 	position: fixed;
@@ -499,5 +497,67 @@ body.dark {
 	top: 0;
 	height: 100%;
 	width: 100%;
+	background-color: #EEEEEE;
+	background-image: linear-gradient(rgba(255,255,255,.1),transparent,rgba(0,0,0,.1));
+	background-attachment: fixed;
+	transition: background .5s;
+}
+body.dark, body.dark #background {
+	background-color: #111111;
+}
+#background canvas {
 	opacity: .8;
 }
+
+@keyframes animgray {
+ 0% { filter: grayscale(0); }
+ 50% { filter: grayscale(1); }
+ 100% { filter: grayscale(0); }
+}
+@keyframes hue {
+ 0% { filter: hue-rotate(0deg); }
+ 100% { filter: hue-rotate(360deg); }
+}
+@keyframes singlehue {
+ 0% { filter: sepia(1) saturate(8) hue-rotate(0deg); }
+ 100% { filter: sepia(1) saturate(8) hue-rotate(360deg); }
+}
+@keyframes animblur {
+ 0% { filter: blur(0px); }
+ 50% { filter: blur(10px); }
+ 100% { filter: blur(0px); }
+}
+
+.fx_grayscale { filter: grayscale(1); }
+.fx_sepia { filter: sepia(1); }
+.fx_invert { filter: invert(1); }
+.fx_invert_light { filter: invert(1) hue-rotate(180deg); }
+.fx_invert_grayscale { filter: invert(1) grayscale(1); }
+.fx_animated_grayscale { animation: animgray .3s linear infinite; }
+.fx_hue_rotate { animation: hue 2s linear infinite; }
+.fx_single_hue_rotate { animation: singlehue 2s linear infinite; }
+.fx_higher_contrast { filter: contrast(2.5); }
+.fx_higher_saturate { filter: saturate(2.5); }
+.fx_blur { filter: blur(2px); }
+.fx_animated_blur { animation: animblur .3s linear infinite; }
+
+.fx_emboss { filter: url(filters.svg#EmbossFilter); }
+.fx_sharpen { filter: url(filters.svg#SharpenFilter); }
+.fx_edge_detect { filter: url(filters.svg#EdgeDetectFilter); }
+.fx_luminance_mask { filter: url(filters.svg#LuminanceMaskFilter); }
+.fx_gaussian_blur { filter: url(filters.svg#GaussianBlurFilter); }
+.fx_gradient_map { filter: url(filters.svg#GradientMapFilter); }
+.fx_posterize { filter: url(filters.svg#PosterizeFilter); }
+.fx_x_ray { filter: url(filters.svg#XRayFilter); }
+.fx_washout { filter: url(filters.svg#WashoutFilter); }
+.fx_glowing { filter: url(filters.svg#GlowingFilter); }
+.fx_scattered_cubes { filter: url(filters.svg#ScatteredCubesFilter); }
+.fx_color_displacement { filter: url(filters.svg#ColorDisplacementFilter); }
+.fx_convolve { filter: url(filters.svg#ConvolveFilter); }
+.fx_convolve_luminance { filter: url(filters.svg#ConvolveLuminanceFilter); }
+.fx_binary { filter: url(filters.svg#BinaryFilter); }
+.fx_electrize { filter: url(filters.svg#ElectrizeFilter); }
+.fx_spectrum { filter: url(filters.svg#SpectrumFilter); }
+.fx_displacement { filter: url(filters.svg#DisplacementFilter); }
+.fx_distort { filter: url(filters.svg#DistortFilter); }
+.fx_frosted_glass { filter: url(filters.svg#FrostedGlassFilter); }

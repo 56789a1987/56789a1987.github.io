@@ -1,9 +1,10 @@
-let lst = 0, tt = 0, showBackground = true;
+let lst = 0, tt = 0, fixbar = false, showBackground = true;
 window.onscroll = function(){
 	var bar = document.querySelector(".topbar"), bh = bar.offsetHeight, st = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 	tt += lst - st, lst = st
 	if(tt > 0) tt = 0;
 	if(tt < -bh) tt = -bh;
+	if(fixbar) tt = 0;
 	bar.style.top = tt + "px";
 }
 const getStore = function(k){ return typeof(Storage) !== "undefined" ? localStorage.getItem(k) : false; },
@@ -66,9 +67,8 @@ var menulst = [
 { text: "背景特效", id: "menu_backgroundfx", color: "#0DF", click: function(){ showBackground ? hideBg() : showBg(); }},
 { text: "隐藏项目", id: "menu_hideitems", color: "#0F6", click: toggleItems },
 { text: "新窗口打开", id: "menu_newwindow", color: "#FC0", click: function(){ newWindow ? currentWindow() : openWindow(); }},
-{ text: "Hue-rotate", id: "menu_huerotate", color: "#F30", click: function(){
-	document.querySelectorAll(".topbar, #container").forEach(function(e){ e.classList.toggle("hue"); });
-	document.getElementById("menu_huerotate").classList.toggle("menuselected");
+{ text: "页面滤镜", id: "menu_huerotate", color: "#F30", click: function(){
+	document.querySelector(".menu.md").classList.remove("menuopen"), document.querySelector(".menu.mx").classList.add("menuopen");
 }},
 { text: "Harlem Shake", color: "#F3F", click: harlem }
 ], filterlst = [];
@@ -94,7 +94,12 @@ const addItem = function(_opt){
 	];
 	document.getElementById("container").innerHTML += e.join("");
 };
-document.querySelector(".menubtn").addEventListener("click", function(){ document.querySelector(".menu.md").classList.toggle("menuopen"); });
+document.querySelector(".menubtn").addEventListener("click", function(){
+	document.querySelector(".menu.mx").classList.contains("menuopen") || (document.querySelector(".menu.md").classList.toggle("menuopen"), document.querySelector(".topbar").style.top = 0);
+	document.querySelector(".menu.mx").classList.remove("menuopen");
+	document.querySelector(".menubtn").classList.toggle("menu_open");
+	fixbar = !fixbar;
+});
 
 var proj = [
 {
@@ -317,6 +322,20 @@ document.querySelector(".filterbtn").addEventListener("click", function(){
 	document.body.classList.contains("searchopen") || document.querySelector(".menu.mf").classList.remove("menuopen");
 });
 searchbox.addEventListener("input", function(){ fkey = this.value, setFilter(); });
+let fx_list = ["Grayscale", "Sepia", "Invert", "Invert Light", "Invert Grayscale", "Animated Grayscale", "Hue Rotate", "Single Hue Rotate", "Higher Contrast", "Higher Saturate", "Blur", "Animated Blur", "Emboss", "Sharpen", "Edge Detect", "Gaussian Blur", "Gradient Map", "Posterize", "Washout", "Glowing", "Scattered Cubes", "Color Displacement", "Convolve", "Convolve Luminance", "Binary", "Electrize", "Spectrum", "Displacement", "Distort", "Frosted Glass"], currentFX = "", 
+setFX = function(n) {
+	let lastFX = currentFX;
+	currentFX = n;
+	document.getElementById("setfx_" + lastFX.replace(/ /g, "_")).classList.remove("menuselected");
+	document.documentElement.classList.remove("fx_" + lastFX.toLowerCase().replace(/ /g, "_"));
+	document.getElementById("setfx_" + currentFX.replace(/ /g, "_")).classList.add("menuselected");
+	document.documentElement.classList.add("fx_" + currentFX.toLowerCase().replace(/ /g, "_"));
+}
+addMenu({ text: "无", id: "setfx_", color: "#999", click: function(){ setFX(""); }}, ".menu.mx");
+fx_list.forEach(function(e, i){
+	addMenu({ text: e, id: "setfx_" + e.replace(/ /g, "_"), color: "hsl(" + (360 * i / fx_list.length) + ",90%,50%)", click: function(){ setFX(e); }}, ".menu.mx");
+});
+document.getElementById("setfx_").classList.add("menuselected");
 let mx, my,
 inititem = function(){
 	document.querySelectorAll(".item").forEach(function(m){
