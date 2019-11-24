@@ -59,8 +59,8 @@ render = function(lasers) {
 },
 init = function() {
 	cancelAnimationFrame(af);
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvas.width = document.querySelector("#background").offsetWidth;
+	canvas.height = document.querySelector("#background").offsetHeight;
 	render(createLasers(parseInt(window.innerWidth / 5.5)));
 };
 window.addEventListener("resize", init);

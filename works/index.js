@@ -330,6 +330,7 @@ setFX = function(n) {
 	document.documentElement.classList.remove("fx_" + lastFX.toLowerCase().replace(/ /g, "_"));
 	document.getElementById("setfx_" + currentFX.replace(/ /g, "_")).classList.add("menuselected");
 	document.documentElement.classList.add("fx_" + currentFX.toLowerCase().replace(/ /g, "_"));
+	n == "" ? document.getElementById("background").classList.remove("solidbg") : document.getElementById("background").classList.add("solidbg");
 }
 addMenu({ text: "无", id: "setfx_", color: "#999", click: function(){ setFX(""); }}, ".menu.mx");
 fx_list.forEach(function(e, i){

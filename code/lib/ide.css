@@ -3,6 +3,9 @@
 	50% { background: #FFCC00; }
 }
 
+body {
+	background-color:#333;
+}
 .CodeMirror {
 	position:absolute;
 	left:0;
@@ -29,7 +32,7 @@
 	overflow: hidden;
 	background:#FF7F00;
 	border-bottom:1px solid #999;
-	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	line-height:28px;
 	color:#FFF;
 	box-sizing:border-box;
@@ -63,7 +66,7 @@
 	height:18px;
 	width:100%;
 	background:#666666;
-	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	line-height:18px;
 	color:#FFF;
 	box-shadow: 0 0 2px #0f0;
@@ -71,6 +74,7 @@
 	padding:0 5px;
 	user-select:none;
 	z-index:9;
+	overflow-y:auto;
 }
 .status-bar #getcode{
 	border-right:1px solid #999;

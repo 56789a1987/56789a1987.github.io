@@ -12,6 +12,7 @@
 }
 
 body{
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	--bgmvmtx: 20;
 	--bgmvmty: 20;
 	--fontsize: 0;
@@ -30,7 +31,6 @@ body{
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
-
 }
 
 #mt{
@@ -62,7 +62,6 @@ body{
 	float: left;
 	color: #FFF;
 	font-size: 26px;
-	font-family: "sans-serif";
 	line-height: 48px;
 	margin-left: 10px;
 	letter-spacing: .25px;
@@ -133,8 +132,8 @@ var pl = false, mx, my;
 const _me = document.getElementById("mt"), _e = document.getElementById("t"),
 onresize = function(){
 	document.body.style.setProperty("--fontsize", window.innerWidth / _me.innerHTML.length / 1.1);
-	_e.style.left = window.innerWidth / 2 - _me.offsetWidth / 2 + "px";
-	_e.style.top = window.innerHeight / 2 - _me.offsetHeight / 2 + "px";
+	_e.style.left = document.getElementById("background").offsetWidth / 2 - _me.offsetWidth / 2 + "px";
+	_e.style.top = document.getElementById("background").offsetHeight / 2 - _me.offsetHeight / 2 + "px";
 },
 setpos = function(x, y){
 	document.body.style.setProperty("--bgmvmtx", - x);
@@ -147,7 +146,7 @@ onmousemove = function(e){
 },
 ontouch = function(e){
 	if(pl) return;
-	setpos(e.touches[0].pageX / window.innerWidth * 40 - 20, e.touches[0].pageY / window.innerHeight * 40 - 20);
+	setpos(e.touches[0].pageX / document.getElementById("background").offsetWidth * 40 - 20, e.touches[0].pageY / document.getElementById("background").offsetHeight * 40 - 20);
 };
 window.addEventListener("resize", onresize);
 window.addEventListener("mousemove", onmousemove);

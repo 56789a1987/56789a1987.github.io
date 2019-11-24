@@ -13,7 +13,7 @@
 html, body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 }
 .topbar {
 	width: 100%;
@@ -488,8 +488,11 @@ body.dark .item .desc {
 	margin: 2px;
 	box-shadow: 0 0 2px 0 #333;
 }
-body {
+body { transition: background .5s; }
+body, #background.solidbg {
 	background-color: #EEEEEE;
+	background-image: linear-gradient(rgba(255,255,255,.1),transparent,rgba(0,0,0,.1));
+	background-attachment: fixed;
 }
 #background {
 	position: fixed;
@@ -497,12 +500,8 @@ body {
 	top: 0;
 	height: 100%;
 	width: 100%;
-	background-color: #EEEEEE;
-	background-image: linear-gradient(rgba(255,255,255,.1),transparent,rgba(0,0,0,.1));
-	background-attachment: fixed;
-	transition: background .5s;
 }
-body.dark, body.dark #background {
+body.dark, body.dark #background.solidbg {
 	background-color: #111111;
 }
 #background canvas {
