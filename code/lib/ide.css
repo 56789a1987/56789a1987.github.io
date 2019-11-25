@@ -32,7 +32,7 @@ body {
 	overflow: hidden;
 	background:#FF7F00;
 	border-bottom:1px solid #999;
-	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	font-family:sans-serif;
 	line-height:28px;
 	color:#FFF;
 	box-sizing:border-box;
@@ -66,7 +66,7 @@ body {
 	height:18px;
 	width:100%;
 	background:#666666;
-	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	font-family:sans-serif;
 	line-height:18px;
 	color:#FFF;
 	box-shadow: 0 0 2px #0f0;
@@ -74,7 +74,7 @@ body {
 	padding:0 5px;
 	user-select:none;
 	z-index:9;
-	overflow-y:auto;
+	overflow:hidden;
 }
 .status-bar #getcode{
 	border-right:1px solid #999;

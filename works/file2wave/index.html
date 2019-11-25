@@ -51,7 +51,8 @@
 	<div class="🐴">生成结果</div>
 	<div class="🐎">
 		<div class="═ ═p"><label><input type="checkbox" id="▶" checked="checked">自动播放</label></div>
-		<div class="═"><audio id="🎼" controls="controls" ></audio></div>
+		<div class="═"><audio id="🎼" controls="controls"></audio></div>
+		<div class="═"><canvas id="📈" width="550" height="256"></canvas></div>
 		<div class="═"><a id="💾">下载音频</a></div>
 	</div>
 </div>
@@ -62,13 +63,30 @@
 <script src="bytebeat_examples.js" language="javascript"></script>
 <script language="javascript">
 var read = new FileReader();
+var freq, dat, lq;
+var canvas = document.getElementById("📈"),
+ctx = canvas.getContext("2d"),
+render = function(){
+	var td = new Array(), time = parseInt(document.getElementById("🎼").currentTime * freq / lq / 256) * 256 * lq - canvas.width * lq / 2;
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	if(typeof dat == "string") for(var i = 0; i < canvas.width + 1; i ++) td.push(dat.charCodeAt(time + i) || 0);
+	else for(var i = 0; i < (canvas.width + 1) * lq; i += lq) td.push((dat[time + i] || 0) & 255);
+	ctx.fillStyle = "#CCC";
+	for(let t = 1; t <= td.length; t ++){
+		let y1 = 255 - Math.max(td[t], td[t-1]), y2 = 255 - Math.min(td[t], td[t-1]);
+		ctx.fillRect(t - 1, y1, 1, y2 - y1 + 1);
+	}
+	document.getElementById("🎼").paused || requestAnimationFrame(render);
+}
 read.onload = function(){
-	var src = data2wave(Number(document.getElementById("🔢").value) || 48000, this.result);
+	freq = Number(document.getElementById("🔢").value) || 48000, dat = this.result, lq = 1;
+	var src = data2wave(freq, dat);
 	document.getElementById("🎼").src = src;
 	window.scrollTo(0, document.documentElement.clientHeight);
 	if(document.getElementById("▶").checked) document.getElementById("🎼").play();
 	document.getElementById("💾").href = src;
 	document.getElementById("💾").download = new Date().getTime() + ".wav";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 document.getElementById("📂").onchange = function(){
 	read.readAsBinaryString(this.files[0]);
@@ -95,12 +113,14 @@ document.getElementById("🧮").onclick = function(){
 			return false;
 		}
 	}
-	var src = data2wave(r * q, data);
+	freq = r * q, dat = data, lq = q;
+	var src = data2wave(freq, dat);
 	document.getElementById("🎼").src = src;
 	window.scrollTo(document.querySelector(".📗").offsetLeft, document.querySelector(".📗").offsetTop);
 	if(document.getElementById("▶").checked) document.getElementById("🎼").play();
 	document.getElementById("💾").href = src;
 	document.getElementById("💾").download = new Date().getTime() + ".wav";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 document.getElementById("📝").onchange = document.getElementById("🔢2_0").onchange = document.getElementById("🔢2_2").onchange = function(){
 	document.getElementById("📍").value = "";
@@ -120,6 +140,7 @@ document.getElementById("📍").onchange = function(){
 		document.getElementById("🔢2_2").value = it.quality;
 	}
 }
+document.getElementById("🎼").onplay = render;
 </script>
 </body>
 </html>
