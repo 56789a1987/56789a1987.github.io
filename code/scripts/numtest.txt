@@ -1,0 +1,3 @@
+var a = 0, n = prompt("输入一个名字，计算人品…", "");
+for(var i = 0; i < n.length; i++) a += n. charCodeAt(i);
+alert(n + " 的人品为 " + a % 101);
