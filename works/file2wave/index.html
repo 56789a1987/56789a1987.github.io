@@ -71,7 +71,7 @@ render = function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	if(typeof dat == "string") for(var i = 0; i < canvas.width + 1; i ++) td.push(dat.charCodeAt(time + i) || 0);
 	else for(var i = 0; i < (canvas.width + 1) * lq; i += lq) td.push((dat[time + i] || 0) & 255);
-	ctx.fillStyle = "#CCC";
+	ctx.fillStyle = "#999";
 	for(let t = 1; t <= td.length; t ++){
 		let y1 = 255 - Math.max(td[t], td[t-1]), y2 = 255 - Math.min(td[t], td[t-1]);
 		ctx.fillRect(t - 1, y1, 1, y2 - y1 + 1);

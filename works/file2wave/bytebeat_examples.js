@@ -187,7 +187,7 @@ var bytebeat_examples = [
 	},
 	{
 		title: 'raer 2011-09-28 "Bird-techno" pouet.net/topic.php?which=8357&page=2',
-		value: "t*((t>>11|t>>8)&92&t>>4)+Math.sin(t>>6)",
+		value: "t*((t>>11|t>>8)&92&t>>4)",
 		khz: 8,
 		quality: 6
 	},
@@ -349,7 +349,7 @@ var bytebeat_examples = [
 	},
 	{
 		title: "xeron 2011-10-05 pouet.net/topic.php?which=8357&page=12 JS",
-		value: "Math.sin((t&0x1fff)*(([0.1491,0.2234,0.13283,0.19903,0.26567,0.18786][((t>>13)&7)!=7?t>>13&3:(t>>12&1)+4])+Math.cos((t&0x1fff)*0.0035)*0.0004))*63",
+		value: "Math.sin((t&0x1fff)*(([0.1491,0.2234,0.13283,0.19903,0.26567,0.18786][((t>>13)&7)!=7?t>>13&3:(t>>12&1)+4])+Math.cos((t&0x1fff)*0.0035)*0.0004))*63-128",
 		khz: 11,
 		quality: 4
 	},

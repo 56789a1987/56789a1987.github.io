@@ -23,7 +23,7 @@ var data2wave = function (rate, data) {
 	]
 	var out = header;
 	if(typeof data == "string") {
-		for(var i = 1; i < data.length; i++) out.push(data.charCodeAt(i));
+		for(var i = 0; i < data.length; i++) out.push(data.charCodeAt(i));
 	}
 	else out = out.concat(data);
 	

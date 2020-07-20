@@ -103,6 +103,16 @@ document.querySelector(".menubtn").addEventListener("click", function(){
 
 var proj = [
 {
+	link: "https://polyethylenespace.top/",
+	image: "images/space.png",
+	tag: "Angular 2",
+	title: "Polyethylene Space",
+	description: "Welcome to Polyethylene's new website!",
+	author: "Polyethylene",
+	author_color: "#077777",
+	author_img: "OC/portrait-1.png"
+},
+{
 	link: "arc",
 	image: "arc/thumb.png",
 	tag: "JavaScript",
@@ -221,16 +231,6 @@ var proj = [
 	author: "Polyethylene",
 	author_color: "#077777",
 	author_img: "OC/portrait-1.png"
-},
-{
-	link: "OC/20190720214958.jpg",
-	image: "OC/20190720214958_s.png",
-	tag: "Eternal Love",
-	title: "你和我",
-	description: "大家好！我叫夜明，一只来自于小马国的小马，喜欢星空。<br><br>来和我看吗? _(:з」∠)_",
-	author: "夜明",
-	author_color: "#00BFFF",
-	author_img: "OC/portrait-2.png"
 },
 {
 	link: "OC/polyethylene_z1.png",
